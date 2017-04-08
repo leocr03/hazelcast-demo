@@ -16,6 +16,10 @@ public class Task implements Serializable {
         return name;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public static class Builder {
 
         private int id;
