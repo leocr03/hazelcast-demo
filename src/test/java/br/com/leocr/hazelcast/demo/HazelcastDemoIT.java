@@ -1,5 +1,6 @@
 package br.com.leocr.hazelcast.demo;
 
+import br.com.leocr.hazelcast.demo.entities.Configuration;
 import br.com.leocr.hazelcast.demo.entities.Queue;
 import br.com.leocr.hazelcast.demo.entities.Task;
 import org.junit.Before;
@@ -7,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import sun.security.krb5.Config;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,7 +24,8 @@ public class HazelcastDemoIT {
 
     @BeforeClass
     public static void beforeClass() {
-        final Queue queue = new Queue();
+        final Configuration configuration = null;
+        final Queue queue = new Queue(configuration);
         demo = new HazelcastDemo(queue);
     }
 
@@ -67,6 +70,14 @@ public class HazelcastDemoIT {
         assertConsumeInAnotherInstance();
     }
 
+    @Test
+    public void configurationSuccess() throws Exception {
+        final Configuration customConfiguration = new Configuration();
+        final Queue queue = new Queue(customConfiguration);
+        final HazelcastDemo demo = new HazelcastDemo(queue);
+        createProduce(demo);
+    }
+
     private void assertConsumeInAnotherInstance() {
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -78,6 +89,14 @@ public class HazelcastDemoIT {
     }
 
     private void createProduce() {
+        createProduce(null);
+    }
+
+    private void createProduce(HazelcastDemo demo) {
+        if (demo == null) {
+            demo = HazelcastDemoIT.demo;
+        }
+
         int numElements = demo.queueSize();
         assertEquals(0, numElements);
 

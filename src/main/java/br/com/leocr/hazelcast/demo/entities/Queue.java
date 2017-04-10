@@ -8,8 +8,15 @@ import java.util.concurrent.BlockingQueue;
 public class Queue {
     private BlockingQueue<Task> queue;
 
-    public Queue() {
-        final HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
+    public Queue(Configuration configuration) {
+        final HazelcastInstance hazelcastInstance;
+
+        if (configuration != null) {
+            hazelcastInstance = Hazelcast.newHazelcastInstance(configuration.getConfig());
+        } else {
+            hazelcastInstance = Hazelcast.newHazelcastInstance();
+        }
+
         queue = hazelcastInstance.getQueue("tasksIn");
     }
 

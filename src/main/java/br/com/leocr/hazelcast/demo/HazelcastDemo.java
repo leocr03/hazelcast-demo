@@ -2,6 +2,7 @@ package br.com.leocr.hazelcast.demo;
 
 import br.com.leocr.hazelcast.demo.entities.Queue;
 import br.com.leocr.hazelcast.demo.entities.Task;
+import sun.security.krb5.Config;
 
 public class HazelcastDemo {
     private Queue queue;
@@ -11,7 +12,6 @@ public class HazelcastDemo {
     }
 
     public boolean produce(Task task) {
-        final Queue queue = new Queue();
         return queue.put(task);
     }
 

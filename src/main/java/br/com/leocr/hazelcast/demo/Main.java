@@ -5,7 +5,7 @@ import br.com.leocr.hazelcast.demo.entities.Task;
 
 public class Main {
     public static void main(String [] args) {
-        final Queue queue = new Queue();
+        final Queue queue = new Queue(null);
         final HazelcastDemo demo = new HazelcastDemo(queue);
 
         Task task;
